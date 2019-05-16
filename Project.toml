@@ -1,0 +1,10 @@
+name = "SimpleMonads"
+uuid = "121a5e88-77e4-11e9-05bb-bbd74c6850c4"
+authors = ["antimon2 <antimon2.me@gmail.com>"]
+version = "0.1.0"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
