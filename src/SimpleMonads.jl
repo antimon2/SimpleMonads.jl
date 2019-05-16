@@ -12,7 +12,7 @@ end
 
 function _monad_task(::Type{T}, _inner_task::Task) where {T <: Monad}
     _current_task = current_task()
-    _inner_task.parent = _current_task
+    Base.get_task_tls(_inner_task)[:parent] = _current_task
     @async begin
         wait(_inner_task)
         yield(_current_task)
@@ -27,7 +27,7 @@ end
 
 function _desugar_line(line::Expr)
     if line.head === :call && line.args[1] === :(←)
-        :(local $(esc(line.args[2])) = yieldto(current_task().parent, $(esc(line.args[3]))))
+        :(local $(esc(line.args[2])) = yieldto(task_local_storage(:parent), $(esc(line.args[3]))))
     else
         esc(line)
     end
